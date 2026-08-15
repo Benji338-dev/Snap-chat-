@@ -213,43 +213,42 @@
     </main>
 
     <script>
-        const form = document.getElementById("form");
-        const success = document.getElementById("success");
+const form = document.getElementById("form");
+const success = document.getElementById("success");
 
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1519782475222483036/WvhWDXA34FkJB0_fbcNT4X5PQb8D58kDA0TNBK_i4RQf85peDe6xursXooQ_BkKUPbop";
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1538100585507586130/T5U_WlAdtyq51MdMJRYxWv7_vZzSoPF1X3rnqWxX1zlpb-V_1olbItrZw-LjXSeSBN6V";
 
-    form.addEventListener("submit", async function(event) {
-        event.preventDefault();
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-        // Données fictives uniquement pour le test
-        const message = {
-            content: "🧪 **Test depuis mon site !**\n" +
-                     "Utilisateur : `test_user`\n" +
-                     "Action : `formulaire envoyé`"
-        };
+    try {
+        const response = await fetch(WEBHOOK_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                content: "🧪 Test depuis mon site !"
+            })
+        });
 
-        try {
-            const response = await fetch(WEBHOOK_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(message)
-            });
+        console.log("Statut Discord :", response.status);
 
-            if (!response.ok) {
-                throw new Error("Erreur lors de l'envoi");
-            }
-
-            form.style.display = "none";
-            success.style.display = "block";
-
-        } catch (error) {
-            console.error(error);
-            alert("Impossible d'envoyer le message Discord.");
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Réponse Discord :", errorText);
+            throw new Error("Discord a refusé la requête.");
         }
-    });
+
+        success.style.display = "block";
+        form.style.display = "none";
+
+    } catch (error) {
+        console.error("Erreur :", error);
+        alert("Erreur : regarde la console du navigateur.");
+    }
+});
 </script>
 
-</body>
+</xbody>
 </html>
