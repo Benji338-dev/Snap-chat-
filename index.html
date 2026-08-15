@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Offre découverte</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 50% 0%, #4b0872 0%, #21002f 45%, #100016 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            min-height: 100vh;
+            padding: 35px 22px;
+        }
+
+        .warning {
+            border: 1px solid rgba(210, 70, 255, 0.45);
+            background: rgba(95, 0, 110, 0.35);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            color: #e9b4e8;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 55px;
+        }
+
+        .warning strong {
+            color: #ffd65c;
+        }
+
+        h1 {
+            font-size: 31px;
+            font-weight: 500;
+            margin-bottom: 45px;
+            text-align: center;
+        }
+
+        .input {
+            width: 100%;
+            height: 64px;
+            border-radius: 16px;
+            border: 1px solid rgba(190, 80, 255, 0.65);
+            background: rgba(20, 0, 30, 0.55);
+            color: white;
+            padding: 0 20px;
+            font-size: 17px;
+            outline: none;
+            margin-bottom: 18px;
+        }
+
+        .input::placeholder {
+            color: #a98bad;
+        }
+
+        .input:focus {
+            border-color: #b847ff;
+            box-shadow: 0 0 12px rgba(184, 71, 255, 0.25);
+        }
+
+        .phone-container {
+            display: flex;
+            align-items: center;
+            height: 64px;
+            border-radius: 16px;
+            border: 1px solid rgba(190, 80, 255, 0.65);
+            background: rgba(20, 0, 30, 0.55);
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+
+        .country {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-right: 1px solid rgba(190, 80, 255, 0.35);
+            font-size: 17px;
+            white-space: nowrap;
+        }
+
+        .phone {
+            flex: 1;
+            height: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: white;
+            padding: 0 16px;
+            font-size: 17px;
+        }
+
+        .phone::placeholder {
+            color: #a98bad;
+        }
+
+        .continue {
+            width: 100%;
+            height: 64px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(90deg, #a13ce4, #b84bea);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .continue:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .continue:active {
+            transform: scale(0.98);
+        }
+
+        .info {
+            margin-top: 18px;
+            text-align: center;
+            color: #9f8ba5;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .success {
+            display: none;
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 14px;
+            background: rgba(70, 180, 100, 0.15);
+            border: 1px solid rgba(70, 180, 100, 0.4);
+            text-align: center;
+            color: #b9f5c6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <div class="warning">
+            ⚠️ <strong>Information</strong><br>
+            Cette page est une démonstration indépendante.
+            Elle n'est pas affiliée à Snapchat.
+        </div>
+
+        <h1>Participez à l'offre découverte !</h1>
+
+        <form id="form">
+
+            <input
+                class="input"
+                id="username"
+                type="text"
+                placeholder="Nom d'utilisateur Snapchat"
+                autocomplete="off"
+                required
+            >
+
+            <div class="phone-container">
+
+                <div class="country">
+                    🇫🇷 +33
+                </div>
+
+                <input
+                    class="phone"
+                    id="phone"
+                    type="tel"
+                    placeholder="Numéro de téléphone"
+                    autocomplete="tel"
+                    required
+                >
+
+            </div>
+
+            <button class="continue" type="submit">
+                Continuer
+            </button>
+
+        </form>
+
+        <p class="info">
+            En continuant, vous acceptez que les informations
+            saisies soient utilisées uniquement dans le cadre
+            indiqué par cette page.
+        </p>
+
+        <div class="success" id="success">
+            ✓ Informations reçues.
+        </div>
+
+    </main>
+
+    <script>
+        const form = document.getElementById("form");
+        const success = document.getElementById("success");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const phone = document.getElementById("phone").value;
+
+            if (!username || !phone) {
+                return;
+            }
+
+            /*
+             * Pour cette démonstration, aucune donnée
+             * n'est envoyée à un serveur.
+             */
+
+            console.log("Utilisateur :", username);
+            console.log("Téléphone :", phone);
+
+            form.style.display = "none";
+            success.style.display = "block";
+        });
+    </script>
+
+</body>
+</html>
