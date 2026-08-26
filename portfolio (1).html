@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Roblox Studio Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14161a;
+    --panel: #1c1f25;
+    --panel-line: #2a2e36;
+    --ink: #ecedf0;
+    --ink-dim: #8b909b;
+    --amber: #ff8a3d;
+    --teal: #4fd1c5;
+    --radius: 6px;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+  }
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+  h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+
+  /* ---- toolbar ---- */
+  .toolbar{
+    position: sticky; top:0; z-index: 50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 14px 28px;
+    background: rgba(20,22,26,0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .toolbar .brand{ display:flex; align-items:center; gap:10px; font-weight:600; }
+  .brand-dot{ width:8px; height:8px; border-radius:50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .toolbar nav{ display:flex; gap:22px; }
+  .toolbar nav a{ color: var(--ink-dim); text-decoration:none; font-size: 0.9rem; transition: color .15s; }
+  .toolbar nav a:hover{ color: var(--ink); }
+
+  /* ---- hero ---- */
+  .hero{ padding: 100px 28px 70px; max-width: 980px; margin: 0 auto; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--teal); border: 1px solid rgba(79,209,197,0.3);
+    background: rgba(79,209,197,0.06);
+    padding: 5px 10px; border-radius: 4px; margin-bottom: 22px;
+  }
+  .hero h1{ font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight:700; max-width: 14ch; }
+  .hero p.lead{ color: var(--ink-dim); font-size: 1.05rem; max-width: 52ch; margin-top: 18px; }
+  .hero-actions{ display:flex; gap:14px; margin-top: 32px; flex-wrap: wrap; }
+  .btn{
+    font-family:'JetBrains Mono', monospace; font-size:0.85rem;
+    padding: 10px 18px; border-radius: var(--radius); text-decoration:none;
+    border: 1px solid var(--panel-line); transition: all .15s;
+  }
+  .btn-primary{ background: var(--amber); color:#14161a; border-color: var(--amber); font-weight:600; }
+  .btn-primary:hover{ filter: brightness(1.08); }
+  .btn-ghost{ color: var(--ink); }
+  .btn-ghost:hover{ border-color: var(--ink-dim); }
+
+  /* ---- signature: keyframe scrubber ---- */
+  .scrubber{
+    margin-top: 56px; background: var(--panel); border: 1px solid var(--panel-line);
+    border-radius: var(--radius); padding: 18px 20px; position:relative; overflow:hidden;
+  }
+  .scrubber-top{ display:flex; justify-content:space-between; font-family:'JetBrains Mono', monospace; font-size:0.72rem; color: var(--ink-dim); margin-bottom: 14px; }
+  .track{ position:relative; height: 34px; }
+  .track-line{ position:absolute; top:50%; left:0; right:0; height:1px; background: var(--panel-line); }
+  .tick{ position:absolute; top:50%; width:1px; height:8px; background: var(--panel-line); transform: translateY(-50%); }
+  .keyframe{
+    position:absolute; top:50%; width:10px; height:10px; background: var(--teal);
+    transform: translate(-50%,-50%) rotate(45deg); border-radius: 2px;
+  }
+  .playhead{
+    position:absolute; top:0; bottom:0; width:2px; background: var(--amber);
+    box-shadow: 0 0 10px var(--amber);
+    animation: scrub 4.5s ease-in-out infinite;
+  }
+  .playhead::before{
+    content:''; position:absolute; top:-4px; left:50%; transform:translateX(-50%);
+    width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent;
+    border-top:6px solid var(--amber);
+  }
+  @keyframes scrub{
+    0%{ left:2%; } 50%{ left:96%; } 100%{ left:2%; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .playhead{ animation: none; left: 40%; }
+  }
+
+  section{ max-width: 980px; margin: 0 auto; padding: 70px 28px; }
+  .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom: 34px; }
+  .section-head .idx{ font-family:'JetBrains Mono', monospace; color: var(--ink-dim); font-size:0.85rem; }
+  .section-head h2{ font-size: 1.7rem; }
+  .divider{ height:1px; background: var(--panel-line); border:none; max-width:980px; margin:0 auto; }
+
+  /* ---- projects ---- */
+  .project-card{
+    background: var(--panel); border: 1px solid var(--panel-line); border-radius: var(--radius);
+    margin-bottom: 20px; overflow:hidden;
+  }
+  .project-tabbar{
+    display:flex; align-items:center; gap:8px; padding: 10px 16px;
+    border-bottom: 1px solid var(--panel-line); background: #191c22;
+  }
+  .project-tab{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color: var(--ink-dim);
+    padding: 4px 10px; border-radius: 4px; background: var(--panel);
+  }
+  .project-tab.active{ color: var(--amber); border: 1px solid rgba(255,138,61,0.3); }
+  .project-body{ padding: 22px; }
+  .project-body h3{ font-size: 1.25rem; margin-bottom: 6px; }
+  .project-body .stack{ color: var(--ink-dim); font-family:'JetBrains Mono', monospace; font-size:0.78rem; margin-bottom: 14px; }
+  .project-body p{ color: var(--ink-dim); margin-bottom: 16px; max-width: 68ch; }
+  .feature-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 10px; margin-bottom: 16px; }
+  .feature-chip{
+    font-size: 0.78rem; padding: 8px 10px; border: 1px solid var(--panel-line);
+    border-radius: 4px; color: var(--ink); background: #14161a;
+  }
+  .project-links a{ color: var(--teal); font-size:0.85rem; text-decoration:none; margin-right:18px; }
+  .project-links a:hover{ text-decoration: underline; }
+
+  /* ---- video showcase ---- */
+  .video-slot{
+    background: var(--panel); border: 1px solid var(--panel-line); border-radius: var(--radius);
+    aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center;
+    color: var(--ink-dim); font-family:'JetBrains Mono', monospace; font-size:0.85rem; text-align:center; padding: 20px;
+  }
+  video{ width:100%; height:100%; border-radius: var(--radius); display:block; }
+
+  /* ---- skills ---- */
+  .skills-list{ display:flex; flex-wrap:wrap; gap:10px; }
+  .skill-pill{
+    font-family:'JetBrains Mono', monospace; font-size:0.8rem;
+    border: 1px solid var(--panel-line); padding: 8px 14px; border-radius: 20px; color: var(--ink-dim);
+  }
+
+  footer{ padding: 50px 28px 80px; text-align:center; color: var(--ink-dim); font-size: 0.85rem; }
+  footer a{ color: var(--teal); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="brand"><span class="brand-dot"></span> TON_NOM<span class="mono" style="color:var(--ink-dim)">.dev</span></div>
+  <nav>
+    <a href="#projects">Projets</a>
+    <a href="#showcase">Démos</a>
+    <a href="#skills">Compétences</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</div>
+
+<section class="hero">
+  <div class="eyebrow">● plugin actuellement en développement</div>
+  <h1>Je construis des outils pour Roblox Studio.</h1>
+  <p class="lead">Développeur spécialisé dans les plugins d'édition — animation d'UI, gestion d'assets, génération de code. Ce portfolio réunit mes outils, leurs démos et leur code source.</p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn btn-primary">Voir les projets</a>
+    <a href="https://github.com/TON_PSEUDO" class="btn btn-ghost">GitHub ↗</a>
+  </div>
+
+  <div class="scrubber">
+    <div class="scrubber-top">
+      <span>UiAnimatorModule.animation</span>
+      <span>00:00 — 00:04.5</span>
+    </div>
+    <div class="track" id="track">
+      <div class="track-line"></div>
+      <div class="playhead"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="projects">
+  <div class="section-head"><span class="idx mono">projets/</span><h2>Ce que j'ai construit</h2></div>
+
+  <div class="project-card">
+    <div class="project-tabbar">
+      <span class="project-tab active">QuickUi+</span>
+      <span class="project-tab">Plugin Roblox Studio</span>
+    </div>
+    <div class="project-body">
+      <h3>QuickUi+</h3>
+      <div class="stack">Lua · Roblox Studio Plugin API · ModuleScript export</div>
+      <p>Suite d'outils tout-en-un pour l'édition d'interfaces dans Roblox Studio : animation d'éléments UI, presets de style réutilisables, mise à l'échelle automatique et génération de code exportable prêt à l'emploi.</p>
+      <div class="feature-grid">
+        <div class="feature-chip">UI Animator</div>
+        <div class="feature-chip">Tweens Presets</div>
+        <div class="feature-chip">Auto Scale</div>
+        <div class="feature-chip">Auto Toggle Script</div>
+        <div class="feature-chip">Asset Manager</div>
+        <div class="feature-chip">Générateur TopBar</div>
+        <div class="feature-chip">Outils Texture</div>
+        <div class="feature-chip">Rotate / Convert Into</div>
+      </div>
+      <div class="project-links">
+        <a href="#">Code source ↗</a>
+        <a href="#showcase">Voir la démo ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Duplique ce bloc .project-card pour chaque nouveau projet -->
+
+</section>
+
+<hr class="divider">
+
+<section id="showcase">
+  <div class="section-head"><span class="idx mono">démos/</span><h2>Vidéos & captures</h2></div>
+  <p style="color:var(--ink-dim); margin-bottom:22px; max-width:60ch;">
+    Pour une vidéo courte et légère (idéalement &lt; 20-30 Mo), place le fichier .mp4 dans le repo (par ex. <span class="mono">/assets/demo.mp4</span>) et utilise la balise vidéo ci-dessous. Pour des démos plus longues, héberge-les sur YouTube ou Streamable et remplace ce bloc par un iframe embed.
+  </p>
+  <div class="video-slot">
+    <video controls poster="">
+      <source src="assets/demo-quickui.mp4" type="video/mp4">
+      Ton navigateur ne supporte pas la lecture vidéo intégrée.
+    </video>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="skills">
+  <div class="section-head"><span class="idx mono">stack/</span><h2>Compétences</h2></div>
+  <div class="skills-list">
+    <span class="skill-pill">Lua</span>
+    <span class="skill-pill">Roblox Studio Plugin API</span>
+    <span class="skill-pill">UI/UX in-engine</span>
+    <span class="skill-pill">Animation systémique</span>
+    <span class="skill-pill">Export ModuleScript</span>
+    <span class="skill-pill">Git / GitHub</span>
+  </div>
+</section>
+
+<footer>
+  Construit et maintenu à la main. Contact : <a href="mailto:ton@email.com">ton@email.com</a> · <a href="https://github.com/TON_PSEUDO">GitHub</a>
+</footer>
+
+</body>
+</html>
